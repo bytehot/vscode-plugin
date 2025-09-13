@@ -5,9 +5,9 @@
          http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>org.acmsl.bytehot.plugins</groupId>
-  <artifactId>vscode-plugin</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <groupId>org.acmsl.bytehot</groupId>
+  <artifactId>bytehot-vscode-plugin</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   
   <name>Vscode Plugin</name>
@@ -31,7 +31,7 @@
   <developers>
     <developer>
       <name>José San Leandro</name>
-      <email>rydnr@acm-sl.org</email>
+      <email>github@acm-sl.org</email>
       <url>https://github.com/rydnr</url>
     </developer>
   </developers>
@@ -59,7 +59,7 @@
     <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
-    <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
     
     <!-- Dependency versions -->
     <lombok.version>1.18.30</lombok.version>
@@ -193,33 +193,28 @@
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
           </plugin>
           
-          <!-- Nexus staging plugin -->
+          <!-- Central Publishing Plugin -->
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+              <waitUntil>published</waitUntil>
             </configuration>
           </plugin>
         </plugins>
       </build>
-      
-      <distributionManagement>
-        <snapshotRepository>
-          <id>ossrh</id>
-          <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-          <id>ossrh</id>
-          <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-      </distributionManagement>
     </profile>
   </profiles>
 </project>
